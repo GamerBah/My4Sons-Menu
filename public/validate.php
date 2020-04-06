@@ -1,7 +1,5 @@
 <?php
-header("Access-Control-Allow-Origin: *");
-header("Access-Control-Allow-Headers: Content-Type");
-if (isset($_COOKIE["auth"]))
+if (isset($_COOKIE["auth"]) && $_COOKIE['auth'] === "admin")
     echo 0;
 else
     echo 1;

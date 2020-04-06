@@ -5,10 +5,10 @@
                 <v-layout text-center wrap>
 
                     <v-flex mb-4>
-                        <p class="t3">
+                        <p class="t3 small">
                             This is dynamic! When we we're running low on
                             <br>something in the restaurant, that'll be shown right here! </p>
-                        <v-divider inset/>
+                        <v-divider class="mx-10" />
                     </v-flex>
 
                     <MenuTable :items="items"/>
@@ -18,7 +18,7 @@
         </v-content>
 
         <v-footer fixed class="grey lighten-2">
-            <span class="t2" style="vertical-align: center;">
+            <span class="t2 small" style="vertical-align: center;">
                 &#169 {{ new Date().getFullYear() }} My 4 Sons Enterprises
             </span>
             <v-spacer/>
@@ -28,7 +28,7 @@
                         <v-icon v-on="on">mdi-login</v-icon>
                     </v-btn>
                 </template>
-                <span class="t2">Login to Editor</span>
+                <span class="t2 small">Login to Editor</span>
             </v-tooltip>
         </v-footer>
 
@@ -43,13 +43,13 @@
                 </v-card-title>
                 <v-divider/>
                 <v-card-text>
-                    <v-form v-model="valid" ref="loginForm">
+                    <v-form v-model="valid" ref="loginForm" v-on:keyup.enter="attemptLogin">
                         <v-container>
                             <v-text-field clearable prepend-icon="mdi-account-box"
                                           v-model="username"
                                           :rules="formRules"
                                           label="Username"
-                                          required/>
+                                          required />
                             <v-text-field prepend-icon="mdi-lock"
                                           v-model="password"
                                           :rules="formRules"
@@ -61,8 +61,9 @@
                 </v-card-text>
                 <v-divider/>
                 <v-card-actions class="justify-center">
-                    <v-btn class="ma-5 px-10 t4" color="secondary" @click="formReset">Close</v-btn>
-                    <v-btn class="ma-5 px-10 t4" color="success" :disabled="!valid" @click="attemptLogin">Login</v-btn>
+                    <v-btn class="ma-5 px-10 t4 medium" color="secondary" @click="formReset">Close</v-btn>
+                    <v-btn class="ma-5 px-10 t4 medium" color="success" :disabled="!valid" @click="attemptLogin">Login
+                    </v-btn>
                 </v-card-actions>
             </v-card>
         </v-dialog>
@@ -75,7 +76,7 @@
 
 <script>
     import axios from 'axios';
-    import MenuTable from "../components/MenuTable";
+    import MenuTable from "../components/home/HomeTable";
 
     export default {
         components: {
@@ -96,11 +97,10 @@
         },
         methods: {
             checkCookie() {
-                axios.get("http://localhost:8018/public/validate.php")
+                axios.get("validate.php")
                      .then((response) => {
                          if (response.data === 0) {
                              // Auth Cookie Present
-                             console.log("Cookie!");
                              this.toAdmin();
                          } else {
                              this.login = true;
@@ -109,7 +109,7 @@
                      .catch((err) => console.log(err));
             },
             attemptLogin() {
-                axios.post("http://localhost:8018/public/login.php", {
+                axios.post("login.php", {
                     a: this.username,
                     b: this.password,
                 }).then((response) => {
